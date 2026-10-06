@@ -7,6 +7,15 @@ with open("data/notes.txt", "r") as f:
     for line in f:
         notes.append(line.strip())
 
+def log_reading(book, chapter, verse):
+    readings.append(f"{book} Chapter {chapter} Verse {verse}")
+    with open("data/readings.txt", "a") as f:
+        f.write(f"{book} Chapter {chapter} Verse {verse}\n")
+
+def add_study_note(book, chapter, verse, note):
+    notes.append(f"{book} Chapter {chapter} Verse {verse}: {note}")
+    with open("data/notes.txt", "a") as f:
+        f.write(f"{book} Chapter {chapter} Verse {verse}: {note}\n")
 while True:
     print("==========================")
     print("      Scripture Tracker")
