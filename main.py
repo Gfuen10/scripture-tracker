@@ -34,9 +34,9 @@ while True:
         book = input("Enter the book name: ")
         chapter = input("Enter the chapter number: ")
         verse = input("Enter the verse: ")
-        readings.append(f"{book} Chapter {chapter} Verse {verse}")
-        with open("readings.txt", "a") as f:
-            f.write(f"{book} Chapter {chapter} Verse {verse}\n")
+        
+        log_reading(book, chapter, verse)
+        
         print(f"Logged reading: {book} Chapter {chapter} Verse {verse}")
     elif choice == "2":
         print("Viewing reading history...")
@@ -51,9 +51,9 @@ while True:
         chapter = input("Enter the chapter number: ")
         verse = input("Enter the verse: ")
         note = input("Enter your study note: ")
-        notes.append(f"{book} Chapter {chapter} Verse {verse}: {note}")
-        with open("data/notes.txt", "a") as f:
-            f.write(f"{book} Chapter {chapter} Verse {verse}: {note}\n")
+        
+        add_study_note(book, chapter, verse, note)
+        
         print("Study note added.")
     elif choice == "4":
         print("Viewing study notes...")
