@@ -1,11 +1,19 @@
-readings = []
-with open("data/readings.txt", "r") as f:
-    for line in f:
-        readings.append(line.strip())
-notes = []
-with open("data/notes.txt", "r") as f:
-    for line in f:
-        notes.append(line.strip())
+import json
+import os
+
+if not os.path.exists("data/readings.json"):
+    with open("data/readings.json", "w") as f:
+        json.dump([], f)
+
+if not os.path.exists("data/notes.json"):
+    with open("data/notes.json", "w") as f:
+        json.dump([], f)
+
+with open("data/readings.json", "r") as f:
+    readings = json.load(f)
+
+with open("data/notes.json", "r") as f:
+    notes = json.load(f)
 
 def log_reading(book, chapter, verse):
     reading = {
@@ -16,13 +24,21 @@ def log_reading(book, chapter, verse):
 
     readings.append(reading)
     
-    with open("data/readings.txt", "a") as f:
-        f.write(f"{book} Chapter {chapter} Verse {verse}\n")
+    with open("data/readings.json", "w") as f:
+        json.dump(readings, f, indent=4)
 
 def add_study_note(book, chapter, verse, note):
-    notes.append(f"{book} Chapter {chapter} Verse {verse}: {note}")
-    with open("data/notes.txt", "a") as f:
-        f.write(f"{book} Chapter {chapter} Verse {verse}: {note}\n")
+    study_notes = {
+        "book": book,
+        "chapter": chapter,
+        "verse": verse,
+        "note": note
+    }
+    
+    notes.append(study_notes)
+    
+    with open("data/notes.json", "w") as f:
+        json.dump(notes, f, indent=4)
 while True:
     print("==========================")
     print("      Scripture Tracker")
@@ -77,5 +93,3 @@ while True:
         break
     else:
         print("Invalid choice. Please enter a number between 1 and 5.")
-    
-
