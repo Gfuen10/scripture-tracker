@@ -8,7 +8,14 @@ with open("data/notes.txt", "r") as f:
         notes.append(line.strip())
 
 def log_reading(book, chapter, verse):
-    readings.append(f"{book} Chapter {chapter} Verse {verse}")
+    reading = {
+        "book": book,
+        "chapter": chapter,
+        "verse": verse
+    }
+
+    readings.append(reading)
+    
     with open("data/readings.txt", "a") as f:
         f.write(f"{book} Chapter {chapter} Verse {verse}\n")
 
@@ -44,7 +51,10 @@ while True:
             print("No readings logged yet.")
         else:
             for reading in readings:
-                print(reading)
+                if isinstance(reading, dict):
+                    print(f"{reading['book']} Chapter {reading['chapter']} Verse {reading['verse']}")
+                else:
+                    print(reading)
     elif choice == "3":
         print("Adding a study note...")
         book = input("Enter the book name: ")
@@ -67,5 +77,5 @@ while True:
         break
     else:
         print("Invalid choice. Please enter a number between 1 and 5.")
-       
+    
 
