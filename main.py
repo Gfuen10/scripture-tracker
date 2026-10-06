@@ -1,19 +1,20 @@
 import json
-import os
 
-if not os.path.exists("data/readings.json"):
-    with open("data/readings.json", "w") as f:
-        json.dump([], f)
+def load_data(filename):
+    try:
+        with open(filename, "r") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        with open(filename, "w") as f:
+            json.dump([], f)
+        return []
 
-if not os.path.exists("data/notes.json"):
-    with open("data/notes.json", "w") as f:
-        json.dump([], f)
-
-with open("data/readings.json", "r") as f:
-    readings = json.load(f)
-
-with open("data/notes.json", "r") as f:
-    notes = json.load(f)
+def save_data(filename, data):
+        with open(filename, "w") as f:  
+            json.dump(data, f, indent=4)
+    
+readings = load_data("data/readings.json")
+notes = load_data("data/notes.json")
 
 def log_reading(book, chapter, verse):
     reading = {
@@ -23,9 +24,7 @@ def log_reading(book, chapter, verse):
     }
 
     readings.append(reading)
-    
-    with open("data/readings.json", "w") as f:
-        json.dump(readings, f, indent=4)
+    save_data("data/readings.json", readings)
 
 def add_study_note(book, chapter, verse, note):
     study_notes = {
@@ -37,8 +36,7 @@ def add_study_note(book, chapter, verse, note):
     
     notes.append(study_notes)
     
-    with open("data/notes.json", "w") as f:
-        json.dump(notes, f, indent=4)
+    save_data("data/notes.json", notes)
 while True:
     print("==========================")
     print("      Scripture Tracker")
@@ -87,7 +85,10 @@ while True:
             print("No study notes added yet.")
         else:
             for note in notes:
-                print(note)
+                if isinstance(note, dict):
+                    print(f"{note['book']} Chapter {note['chapter']} Verse {note['verse']}: {note['note']}")
+                else:
+                    print(note)
     elif choice == "5":
         print("Exiting the application. Goodbye!")
         break
